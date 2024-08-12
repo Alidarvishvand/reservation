@@ -9,27 +9,13 @@ def home(request):
     return render(request, 'index.html', {'restaurants': restaurants}) 
 
 
-def restaurant_detail(request, pk):
-    restaurant = Restaurant.objects.get(pk=pk)
-    return render(request, 'resturant_detail.html', {'restaurant': restaurant}) 
+def about(request):
+    return render(request, 'about.html')
 
+def menu(request):
+    return render(request, 'menu.html')
 
-@login_required
-def make_reservation(request, pk):
-    restaurant = get_object_or_404(Restaurant, pk=pk)
-    tables = Table.objects.filter(restaurant=restaurant)
-
+def booktable(request):
     if request.method == 'POST':
-        form = ReservationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('reservation_success')
-    else:
-        form = ReservationForm()
-
-    return render(request, 'make_reservation.html', {'form': form, 'restaurant': restaurant, 'tables': tables})
-
-
-
-def reservation_success(request):
-    return render(request, 'reservation_success.html')
+        return render(request, 'thankyou.html')  
+    return render(request, 'book.html')
