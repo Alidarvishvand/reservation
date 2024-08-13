@@ -12,5 +12,5 @@ class TableAdmin(admin.ModelAdmin):
 
 @admin.register(Reservation)
 class ReservationAdmin(admin.ModelAdmin):
-    list_display = ['table', 'customer_name']
+    list_display = ['customer_name','table' ]
     list_filter = ['table']
