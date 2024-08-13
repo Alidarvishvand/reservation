@@ -4,7 +4,7 @@ from .models import Reservation, Table
 class ReservationForm(forms.ModelForm):
     class Meta:
         model = Reservation
-        fields = ['table', 'customer_name', 'reservation_time']
+        fields = ['table','restaurant' ,'customer_name']
 
     def __init__(self, *args, **kwargs):
         restaurant = kwargs.pop('restaurant', None)

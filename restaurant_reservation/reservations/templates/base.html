@@ -45,7 +45,7 @@
     <header class="header_section">
       <div class="container">
         <nav class="navbar navbar-expand-lg custom_nav-container ">
-          <a class="navbar-brand" href="index.html">
+          <a class="navbar-brand" href="{% url 'index'%}">
             <span>
               blockfoodhall
             </span>
@@ -58,17 +58,21 @@
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav  mx-auto ">
               <li class="nav-item active">
-                <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="{% url 'index' %}">Home <span class="sr-only">(current)</span></a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="menu.html">Menu</a>
+                <a class="nav-link" href="{% url 'menu' %}">Menu</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="about.html">About</a>
+                <a class="nav-link" href="{% url 'about' %}">About</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="book.html">Book Table</a>
+                <a class="nav-link" href="{% url 'booktable' %}">Book Table</a>
               </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'reserve' %}">reserve</a>
+              </li>
+
             </ul>
             <div class="user_option">
               <a href="" class="user_link">
@@ -191,8 +195,8 @@
               Necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with
             </p>
             <div class="footer_social">
-              <a href="">
-                <i class="fa fa-facebook" aria-hidden="true"></i>
+              <a href="https://github.com/Alidarvishvand/">
+                <i class="fa github" aria-hidden="true"></i>
               </a>
               <a href="">
                 <i class="fa fa-twitter" aria-hidden="true"></i>

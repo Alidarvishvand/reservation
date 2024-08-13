@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>رزرو موفق</title>
+    <style>
+        /* استایل برای پس‌زمینه کلی صفحه */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e0f7fa; /* رنگ پس‌زمینه آبی روشن */
+            color: #333; /* رنگ متن */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* ارتفاع صفحه */
+            text-align: center;
+        }
+
+        /* استایل برای عنوان */
+        h1 {
+            font-size: 36px;
+            color: #4caf50; /* رنگ سبز برای موفقیت */
+            margin-bottom: 20px;
+        }
+
+        /* استایل برای پاراگراف */
+        p {
+            font-size: 18px;
+            color: #555; /* رنگ خاکستری تیره برای متن */
+            margin-bottom: 30px;
+        }
+
+        /* استایل برای لیست و لینک */
+        .nav-item {
+            list-style-type: none; /* حذف نقطه‌چین پیش‌فرض */
+            padding: 0;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            font-size: 18px;
+            color: #007bff; /* رنگ آبی برای لینک */
+            padding: 10px;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            background-color: #e9ecef; /* رنگ پس‌زمینه هنگام hover */
+        }
+
+        .nav-item.active .nav-link {
+            font-weight: bold;
+            color: #0056b3; /* رنگ آبی تیره برای لینک فعال */
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <h1>رزرو شما با موفقیت ثبت شد!</h1>
+        <p>از انتخاب شما سپاسگزاریم.</p>
+        <ul>
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url 'index' %}">Home <span class="sr-only">(current)</span></a>
+            </li>
+        </ul>
+    </div>
+</body>
+</html>

@@ -21,9 +21,11 @@ class Table(models.Model):
         return f"Table {self.table_number} ({self.seats} seats)"
 
 class Reservation(models.Model):
+    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE,null = True) 
     table = models.ForeignKey(Table, on_delete=models.CASCADE)
     customer_name = models.CharField(max_length=100)
-    reservation_time = models.DateTimeField()
+    reservation_time = models.DateTimeField(null=True, blank=True)
+    # Restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"Reservation for {self.customer_name} on {self.reservation_time}"
+       return f"Reservation for {self.customer_name} at {self.restaurant.name} on {self.reservation_time}"
