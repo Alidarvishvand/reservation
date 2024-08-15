@@ -1,7 +1,6 @@
 from django.db import models
-
-# Create your models here.
-from django.db import models
+from django.core.exceptions import ValidationError
+from django.utils import timezone
 
 class Restaurant(models.Model):
     name = models.CharField(max_length=100)
@@ -12,21 +11,35 @@ class Restaurant(models.Model):
     def __str__(self):
         return self.name
 
+
 class Table(models.Model):
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
     table_number = models.IntegerField()
-    seats = models.IntegerField()
+    seats = models.CharField(max_length=20)
 
     def __str__(self):
         return f"Table {self.table_number} ({self.seats} seats)"
 
+
 class Reservation(models.Model):
-    name = models.CharField(max_length= 100,default=Restaurant)
-    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE,null = True) 
-    table = models.ForeignKey(Table, on_delete=models.CASCADE)
+    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, null=True)
+    table = models.ForeignKey(Table, related_name='reservations', on_delete=models.CASCADE)
     customer_name = models.CharField(max_length=100)
-    reservation_time = models.DateTimeField(null=True, blank=True)
-    # Restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
+    reservation_time = models.DateField(default=timezone.now)  
+    time_slot = models.TimeField(default='12:00')
+    def clean(self):
+        if Reservation.objects.filter(
+            table=self.table, 
+            reservation_time=self.reservation_time
+        ).exists():
+            raise ValidationError('این میز در زمان انتخابی برای این رستوران قبلاً رزرو شده است.')
+
+    def save(self, *args, **kwargs):
+        self.clean()  
+        super().save(*args, **kwargs)
+
+    class Meta:
+        unique_together = ('table', 'reservation_time')
 
     def __str__(self):
         restaurant_name = self.restaurant.name if self.restaurant else "Unknown Restaurant"

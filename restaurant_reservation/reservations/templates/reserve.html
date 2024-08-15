@@ -63,16 +63,16 @@
     </style>
 </head>
 <body>
-    <h1>Make a Reservation at {{ restaurant.name }}</h1>
+    <h1>  رزرو میز در کافه بلوک{{ restaurant.name }}</h1>
     <form method="post">
         {% csrf_token %}
         <p>
-            <label for="reservation-time">Reservation time:</label>
+            <label for="reservation-time">زمان رزرو:</label>
             <input type="date" id="reservation-time" name="reservation_time">
             <span id="current-date" class="current-date"></span> <!-- محل نمایش تاریخ -->
         </p>
         {{ form.as_p }}
-        <button type="submit">Reserve</button>
+        <button type="submit">رزرو</button>
     </form>
 
     <script>
@@ -90,7 +90,7 @@
             reservationTimeInput.value = formatDate(currentDate); // تنظیم تاریخ پیش‌فرض به تاریخ امروز
 
             const currentDateSpan = document.getElementById('current-date');
-            currentDateSpan.textContent = `Today: ${formatDate(currentDate)}`;
+            currentDateSpan.textContent = `امروز: ${formatDate(currentDate)}`;
         });
     </script>
 </body>
