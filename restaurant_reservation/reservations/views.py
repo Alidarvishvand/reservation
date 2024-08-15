@@ -3,7 +3,7 @@ from .models import Restaurant, Reservation, Table
 from .forms import ReservationForm
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
-
+from django.utils import timezone
 def home(request):
     restaurants = Restaurant.objects.all()
     return render(request, 'index.html', {'restaurants': restaurants}) 
@@ -37,29 +37,33 @@ def reserve(request):
 
 @login_required
 def reservation_view(request, restaurant_id):
+    restaurant = get_object_or_404(Restaurant, id=restaurant_id)
     if request.method == 'POST':
         form = ReservationForm(request.POST)
         if form.is_valid():
             table = form.cleaned_data['table']
-            reservation_date = form.cleaned_data['reservation_date']
-            time_slot = form.cleaned_data['time_slot']
+            reservation_datetime = form.cleaned_data['reservation_datetime']
 
-            # بررسی اینکه آیا این میز در تاریخ و زمان مشخص رزرو شده است
-            existing_reservation = Reservation.objects.filter(
+           
+            existing_reservations = Reservation.objects.filter(
                 table=table,
-                reservation_date=reservation_date,
-                time_slot=time_slot
-            ).exists()
+                reservation_datetime__date=reservation_datetime.date()
+            )
 
-            if existing_reservation:
-                form.add_error(None, "This table is already reserved for the selected date and time.")
+            if existing_reservations.filter(
+                reservation_datetime__time__gte=reservation_datetime.time() - timezone.timedelta(minutes=30),
+                reservation_datetime__time__lt=reservation_datetime.time() + timezone.timedelta(minutes=30)
+            ).exists():
+                form.add_error(None, "این میز در زمان انتخابی برای این رستوران قبلاً رزرو شده است.")
             else:
-                form.save()
-                return redirect('success_url')  # تغییر به URL موفقیت خودتان
+                reservation = form.save(commit=False)
+                reservation.restaurant = restaurant
+                reservation.user = request.user
+                reservation.save()
+                return redirect('success')  
     else:
         form = ReservationForm()
 
-    return render(request, 'reservation_template.html', {'form': form})
-
+    return render(request, 'reserve.html', {'form': form, 'restaurant': restaurant})
 def success(request):
     return render(request, 'success.html')
